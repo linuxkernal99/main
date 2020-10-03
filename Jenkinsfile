@@ -5,11 +5,6 @@ pipeline {
         maven 'maven3'
     }
     stages {
-        stage('Docker Build') {
-            steps {
-                sh docker.build("demo", ".")
-            }
-        }
         /*stage('Clone sources') {
             steps {
                 git 'https://github.com/liranfar/jenkinsFile-helloWorld.git'
