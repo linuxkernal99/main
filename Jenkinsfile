@@ -11,30 +11,40 @@ pipeline {
             }
         }
 
-        stage('Install') {
+        stage('Build') {
             steps {
                 sh "mvn package"
             }
             post {
                 always {
                     junit '**/target/*-reports/TEST-*.xml'
-                    step([$class: 'JacocoPublisher',
-                          execPattern: 'target/*.exec',
-                          classPattern: 'target/classes',
-                          sourcePattern: 'src/main/java',
+                    step([$class          : 'JacocoPublisher',
+                          execPattern     : 'target/*.exec',
+                          classPattern    : 'target/classes',
+                          sourcePattern   : 'src/main/java',
                           exclusionPattern: 'src/test*'
                     ])
                 }
             }
         }
-        stage('Deploy to Nexus') {
+
+/*        stage('Deploy to Nexus') {
             steps {
                 configFileProvider([configFile(fileId: 'our_settings', variable: 'SETTINGS')]) {
                     sh "mvn -s $SETTINGS deploy  -DskipTests -Dnexus-releases-url=${env.NEXUS_RELEASES_URL} -Dnexus-snapshots-url=${env.NEXUS_SNAPSHOTS_URL}"
                 }
 
             }
+        }*/
+
+        stage('Docker Build') {
+            agent any
+            steps {
+                sh 'docker build -t demo:latest .'
+            }
         }
+    }
+}
 
         //TODO: docker build,push
         //TODO: deploy docker image
@@ -45,5 +55,5 @@ pipeline {
 //                        inventory: 'src/main/scripts/inventory.ini')
 //            }
 //        }
-    }
-}
+    //}
+//}
