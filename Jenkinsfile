@@ -5,11 +5,11 @@ pipeline {
         maven 'maven3'
     }
     stages {
-        stage('Clone sources') {
+        /*stage('Clone sources') {
             steps {
                 git 'https://github.com/liranfar/jenkinsFile-helloWorld.git'
             }
-        }
+        }*/
 
         stage('Build') {
             steps {
