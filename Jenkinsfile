@@ -38,7 +38,6 @@ pipeline {
         }*/
 
         stage('Docker Build') {
-            agent any
             steps {
                 sh 'docker build -t demo:latest .'
             }
@@ -46,8 +45,8 @@ pipeline {
     }
 }
 
-        //TODO: docker build,push
-        //TODO: deploy docker image
+        //TODO: docker push
+        //TODO: deploy docker image to nexus
 //        stage('Executing Ansible Playbooks') {
 //            steps {
 //                ansiblePlaybook(
